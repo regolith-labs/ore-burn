@@ -12,7 +12,7 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
     signer_info.is_signer()?;
     boost_info
         .as_account::<Boost>(&ore_boost_api::ID)?
-        .assert(|b| b.mint == ore_mint_info.key)?;
+        .assert(|s| s.mint == *nft_mint_info.key)?;
     config_info
         .is_empty()?
         .is_writable()?

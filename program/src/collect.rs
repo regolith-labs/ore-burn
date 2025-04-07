@@ -28,9 +28,10 @@ pub fn process_collect(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResu
     token_program.is_program(&spl_token::ID)?;
 
     // Calculate amount to collect
+    // TODO This is wrong. Proof balance is not this high...
     let amount = proof.balance + stake.rewards;
 
-    // Invoke CPI
+    // Claim rewards from the program's stake account.
     invoke_signed(
         &ore_boost_api::sdk::claim(
             *config_info.key,
@@ -55,7 +56,7 @@ pub fn process_collect(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResu
         &[CONFIG],
     )?;
 
-    // Increment rewards factor
+    // Increment rewards factor.
     config.rewards_factor += Numeric::from_fraction(amount, config.total_score);
 
     Ok(())
