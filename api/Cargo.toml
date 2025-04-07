@@ -1,0 +1,20 @@
+[package]
+name = "ore-promo-api"
+description = "API for interacting with the OrePromo program"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+repository.workspace = true
+readme.workspace = true
+keywords.workspace = true
+
+[dependencies]
+bytemuck.workspace = true
+num_enum.workspace = true
+ore-api.workspace = true
+ore-boost-api.workspace = true
+solana-program.workspace = true
+steel.workspace = true
+thiserror.workspace = true
