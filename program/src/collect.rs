@@ -7,7 +7,7 @@ pub fn process_collect(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResu
     let new_score = u64::from_le_bytes(args.new_score);
 
     // Load accounts.
-    let [signer_info, boost_info, boost_config_info, boost_proof_info, boost_rewards_info, config_info, proof_info, promoter_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, token_program] =
+    let [signer_info, boost_info, boost_config_info, boost_proof_info, boost_rewards_info, config_info, proof_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, token_program] =
         accounts
     else {
         return Err(ProgramError::NotEnoughAccountKeys);
@@ -16,7 +16,6 @@ pub fn process_collect(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResu
     let config = config_info
         .as_account_mut::<Config>(&ore_promo_info::ID)?
         .assert_mut(|c| c.admin == *signer.key)?;
-    let promoter = promoter_info.as_account_mut::<Promoter>(&ore_promo_api::ID)?;
     let proof = proof_info
         .as_account::<Proof>(&ore_api::ID)?
         .assert(|p| p.authority == *boost_info.key);
