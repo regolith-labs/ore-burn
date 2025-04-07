@@ -3,15 +3,20 @@ use steel::*;
 
 use super::OrePromoAccount;
 
+/// Creator tracks the current score and claimable rewards of a given creator account.
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Pod, Zeroable)]
 pub struct Creator {
+    /// Authority with permission to claim from this creator account.
     pub authority: Pubkey,
 
+    /// The current score of the creator (used for divvying up creator boost rewards).
     pub score: u64,
 
+    /// The total amount of rewards claimable by this creator.
     pub rewards: u64,
 
+    /// The rewards factor last time rewards was updated.
     pub last_rewards_factor: Numeric,
 }
 
