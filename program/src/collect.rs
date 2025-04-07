@@ -28,7 +28,7 @@ pub fn process_collect(accounts: &[AccountInfo<'_>], data: &[u8]) -> ProgramResu
     token_program.is_program(&spl_token::ID)?;
 
     // Calculate amount to collect
-    // TODO This is wrong. Proof balance is not this high...
+    // TODO This is wrong. Proof balance is not equivalent to yield in this boost.
     let amount = proof.balance + stake.rewards;
 
     // Claim rewards from the program's stake account.
