@@ -1,10 +1,11 @@
+use ore_boost_api::state::Boost;
 use ore_promo_api::prelude::*;
 use steel::*;
 
 /// Initialize creates the config account and opens a stake account in the boost program to receive boost rewards.
 pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> ProgramResult {
     // Load accounts.
-    let [signer_info, boost_info, boost_config_info, boost_deposits_info, boost_proof_info, boost_rewards_info, config_info, nft_mint_info, ore_mint_info, sender_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, system_program, token_program, associated_token_program] =
+    let [signer_info, boost_info, boost_config_info, boost_deposits_info, boost_proof_info, boost_rewards_info, config_info, nft_mint_info, ore_mint_info, rewards_info, sender_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, system_program, token_program, associated_token_program] =
         accounts
     else {
         return Err(ProgramError::NotEnoughAccountKeys);
@@ -18,15 +19,16 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
         .is_writable()?
         .has_seeds(&[CONFIG], &ore_promo_api::ID)?;
     nft_mint_info
-        .has_address(ore_promo_api::consts::PROMO_MINT_ADDRESS)?
+        .has_address(&ore_promo_api::consts::NFT_MINT_ADDRESS)?
         .as_mint()?;
     ore_mint_info
-        .has_address(ore_api::consts::MINT_ADDRESS)?
+        .has_address(&ore_api::consts::MINT_ADDRESS)?
         .as_mint()?;
+    rewards_info.is_empty()?.is_writable()?;
     sender_info
         .as_associated_token_account(config_info.key, nft_mint_info.key)?
-        .assert(|s| s.balance == 1)?;
-    stake_info.is_empty()?.is_writeable()?;
+        .assert(|s| s.amount() == 1)?;
+    stake_info.is_empty()?.is_writable()?;
     ore_program.is_program(&ore_api::ID)?;
     ore_boost_program.is_program(&ore_boost_api::ID)?;
     system_program.is_program(&system_program::ID)?;
@@ -39,10 +41,10 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
         system_program,
         signer_info,
         &ore_promo_api::ID,
-        &[COUNTER],
+        &[CONFIG],
     )?;
     let config = config_info.as_account_mut::<Config>(&ore_promo_api::ID)?;
-    config.admin = *singer_info.key;
+    config.admin = *signer_info.key;
     config.rewards_factor = Numeric::ZERO;
     config.total_score = 0;
 

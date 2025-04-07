@@ -1,7 +1,8 @@
-use ore_boost_api::*;
+use ore_api::state::Proof;
+use ore_boost_api::state::Stake;
 use steel::*;
 
-use super::OrePromoAccount;
+use super::{Config, OrePromoAccount};
 
 /// Creator tracks the current score and claimable rewards of a given creator account.
 #[repr(C)]
@@ -21,7 +22,7 @@ pub struct Creator {
 }
 
 impl Creator {
-    pub fn collect_rewards(&self, config: &mut Config, proof: &Proof, stake: &Stake) {
+    pub fn collect_rewards(&mut self, config: &mut Config, proof: &Proof, stake: &Stake) {
         // Sanity checks that all boost rewards have been collected, and config rewards factor is up to
         assert_eq!(proof.balance, 0);
         assert_eq!(stake.rewards, 0);
@@ -31,7 +32,7 @@ impl Creator {
             let accumulated_rewards = config.rewards_factor - self.last_rewards_factor;
             assert!(accumulated_rewards > Numeric::ZERO);
             let personal_rewards = accumulated_rewards * Numeric::from_u64(self.score);
-            self.rewards += personal_rewards;
+            self.rewards += personal_rewards.to_u64();
         }
 
         // Update rewards factor
@@ -39,4 +40,4 @@ impl Creator {
     }
 }
 
-account!(OrePromoAccount, Promoter);
+account!(OrePromoAccount, Creator);

@@ -1,6 +1,6 @@
 [package]
-name = "ore-promo-api"
-description = "API for interacting with the OrePromo program"
+name = "ore-creator-api"
+description = "API for interacting with the ORE creator program"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
