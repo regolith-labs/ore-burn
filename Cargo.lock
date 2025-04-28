@@ -2841,7 +2841,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ore-promo-api"
+name = "ore-burn-api"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
@@ -2854,13 +2854,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "ore-promo-program"
+name = "ore-creator-program"
 version = "0.1.0"
 dependencies = [
  "base64 0.21.7",
  "ore-api",
  "ore-boost-api",
- "ore-promo-api",
+ "ore-burn-api",
  "rand 0.8.5",
  "solana-program",
  "solana-program-test",

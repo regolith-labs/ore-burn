@@ -13,17 +13,14 @@ pub fn initialize(signer: Pubkey) -> Instruction {
     }
 }
 
-pub fn update_score(signer: Pubkey, creator: Pubkey, new_score: u64) -> Instruction {
+pub fn burn(authority: Pubkey) -> Instruction {
     Instruction {
         program_id: crate::ID,
         accounts: vec![
-            AccountMeta::new(signer, true),
-            AccountMeta::new(config_pda().0, false),
-            AccountMeta::new(creator, false),
+            AccountMeta::new(authority, true),
+            // AccountMeta::new(ore_program::ID, false),
+            // AccountMeta::new(token_program::ID, false),
         ],
-        data: UpdateScore {
-            new_score: new_score.to_le_bytes(),
-        }
-        .to_bytes(),
+        data: Burn {}.to_bytes(),
     }
 }

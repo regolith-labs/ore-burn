@@ -16,7 +16,7 @@ crate-type = ["cdylib", "lib"]
 [dependencies]
 ore-api.workspace = true
 ore-boost-api.workspace = true
-ore-promo-api.workspace = true
+ore-burn-api.workspace = true
 solana-program.workspace = true
 spl-token.workspace = true
 spl-associated-token-account.workspace = true
