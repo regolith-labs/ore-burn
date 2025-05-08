@@ -1,11 +1,11 @@
 use ore_boost_api::state::Boost;
-use ore_burn_api::{consts::AUTHORITY, state::Authority};
+use ore_bury_api::{consts::AUTHORITY, state::Authority};
 use steel::*;
 
 /// Initialize creates the config account and opens a stake account in the boost program to receive boost rewards.
 pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> ProgramResult {
     // Load accounts.
-    let [signer_info, authority_info, boost_info, boost_authority_info, boost_deposits_info, boost_proof_info, boost_rewards_info, nft_mint_info, ore_mint_info, rewards_info, sender_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, system_program, token_program, associated_token_program] =
+    let [signer_info, authority_info, boost_info, boost_config_info, boost_deposits_info, boost_proof_info, boost_rewards_info, nft_mint_info, ore_mint_info, rewards_info, sender_info, stake_info, treasury_info, treasury_tokens_info, ore_program, ore_boost_program, system_program, token_program, associated_token_program] =
         accounts
     else {
         return Err(ProgramError::NotEnoughAccountKeys);
@@ -14,12 +14,12 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
     authority_info
         .is_empty()?
         .is_writable()?
-        .has_seeds(&[AUTHORITY], &ore_burn_api::ID)?;
+        .has_seeds(&[AUTHORITY], &ore_bury_api::ID)?;
     boost_info
         .as_account::<Boost>(&ore_boost_api::ID)?
         .assert(|s| s.mint == *nft_mint_info.key)?;
     nft_mint_info
-        .has_address(&ore_burn_api::consts::NFT_MINT_ADDRESS)?
+        .has_address(&ore_bury_api::consts::NFT_MINT_ADDRESS)?
         .as_mint()?;
     ore_mint_info
         .has_address(&ore_api::consts::MINT_ADDRESS)?
@@ -40,7 +40,7 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
         authority_info,
         system_program,
         signer_info,
-        &ore_burn_api::ID,
+        &ore_bury_api::ID,
         &[AUTHORITY],
     )?;
 
@@ -66,7 +66,7 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
             stake_info.clone(),
             system_program.clone(),
         ],
-        &ore_burn_api::ID,
+        &ore_bury_api::ID,
         &[AUTHORITY],
     )?;
 
@@ -76,7 +76,7 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
         &[
             authority_info.clone(),
             boost_info.clone(),
-            boost_authority_info.clone(),
+            boost_config_info.clone(),
             boost_deposits_info.clone(),
             nft_mint_info.clone(),
             boost_proof_info.clone(),
@@ -88,7 +88,7 @@ pub fn process_initialize(accounts: &[AccountInfo<'_>], _data: &[u8]) -> Program
             ore_program.clone(),
             token_program.clone(),
         ],
-        &ore_burn_api::ID,
+        &ore_bury_api::ID,
         &[AUTHORITY],
     )?;
 

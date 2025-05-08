@@ -1,10 +1,10 @@
-mod burn;
+mod bury;
 mod initialize;
 
-use burn::*;
+use bury::*;
 use initialize::*;
 
-use ore_burn_api::prelude::*;
+use ore_bury_api::prelude::*;
 use steel::*;
 
 pub fn process_instruction(
@@ -12,10 +12,10 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     data: &[u8],
 ) -> ProgramResult {
-    let (ix, data) = parse_instruction(&ore_burn_api::ID, program_id, data)?;
+    let (ix, data) = parse_instruction(&ore_bury_api::ID, program_id, data)?;
 
     match ix {
-        OreBurnInstruction::Burn => process_burn(accounts, data)?,
+        OreBurnInstruction::Bury => process_bury(accounts, data)?,
         OreBurnInstruction::Initialize => process_initialize(accounts, data)?,
     }
 

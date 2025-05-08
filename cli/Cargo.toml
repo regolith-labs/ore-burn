@@ -1,0 +1,23 @@
+[package]
+name = "ore-bury-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+repository.workspace = true
+keywords.workspace = true
+publish = false
+
+[features]
+no-entrypoint = []
+default = []
+
+[dependencies]
+bytemuck = { workspace = true }
+ore-bury-api = { path = "../api" }
+solana-client = { workspace = true }
+solana-sdk = { workspace = true }
+solana-program = { workspace = true }
+spl-associated-token-account.workspace = true
+tokio = { workspace = true }

@@ -9,10 +9,9 @@ pub mod prelude {
     pub use crate::error::*;
     pub use crate::instruction::*;
     pub use crate::sdk::*;
-    pub use crate::state::*; 
+    pub use crate::state::*;
 }
 
 use steel::*;
 
-// TODO Set program id
-declare_id!("z7msBPQHDJjTvdQRoEcKyENgXDhSRYeHieN1ZMTqo35"); 
+declare_id!("7jtmQG5Xdtaghfw5joCWAV8PKfvXBCMVhs5K9zsjqEj9");

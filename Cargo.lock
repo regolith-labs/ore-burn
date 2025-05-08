@@ -2841,7 +2841,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ore-burn-api"
+name = "ore-bury-api"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
@@ -2849,18 +2849,33 @@ dependencies = [
  "ore-api",
  "ore-boost-api",
  "solana-program",
+ "spl-associated-token-account 6.0.0",
+ "spl-token 4.0.2",
  "steel",
  "thiserror 1.0.69",
 ]
 
 [[package]]
-name = "ore-creator-program"
+name = "ore-bury-cli"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "ore-bury-api",
+ "solana-client",
+ "solana-program",
+ "solana-sdk",
+ "spl-associated-token-account 6.0.0",
+ "tokio",
+]
+
+[[package]]
+name = "ore-bury-program"
 version = "0.1.0"
 dependencies = [
  "base64 0.21.7",
  "ore-api",
  "ore-boost-api",
- "ore-burn-api",
+ "ore-bury-api",
  "rand 0.8.5",
  "solana-program",
  "solana-program-test",
